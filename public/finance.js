@@ -34,7 +34,7 @@ function createChart(symbol) {
 
 $(window).load(function () {
     client = new Faye.Client('/messages');
-    var subscription = client.subscribe('/messages', function (message) {
+    var subscription = client.subscribe('/stock', function (message) {
 	var name = "stock";
 	$('#notes-ul').append("<li class='note' id="+name+" data-noteid=2 data-xpos=800 data-ypos=700><a class='wrap' style='width:200px;height:200px;padding:0;'><p class='notetext' style='text-align:center;'>STOCK<br />"+message.text+"</p></a></li>");
 	$("#"+name).draggable();
@@ -44,5 +44,17 @@ $(window).load(function () {
             left: "+=" + numberW,
             top: "+=" + numberH
     	}, 1000);
+    });
+    //
+    var subscription2 = client.subscribe('/description', function (message) {
+	var name = "description";
+        $('#notes-ul').append("<li class='note' id="+name+" data-noteid=2 data-xpos=800 data-ypos=700><a style='width:300px;height:200px;padding:0;'><p style='text-align:center;font-size:18px;max-height:200px;overflow-y:auto;'>DESCRIPTION<br />"+message.text+"</p></a></li>");
+        $("#"+name).draggable();
+        var numberW = Math.floor((Math.random() * (wW - 400)) + 1);
+        var numberH = Math.floor((Math.random() * (wH - 400)) + 1);
+        $("#"+name).animate({
+            left: "+=" + numberW,
+            top: "+=" + numberH
+        }, 1000);
     });
 });
